@@ -5,6 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SBS.ApplicationCore\SBS.ApplicationCore.csproj" />
+    <ProjectReference Include="..\SBS.Infrastructure\SBS.Infrastructure.csproj" />
     <ProjectReference Include="..\SBS.Utils\SBS.Utils.csproj" />
   </ItemGroup>
 

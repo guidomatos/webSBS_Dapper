@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SBS.ApplicationCore.Interfaces.Repositories;
+using SBS.ApplicationCore.Interfaces.Services;
+using SBS.ApplicationCore.Services;
+using SBS.Infrastructure.Repositories;
 
 namespace SBS.Web
 {
@@ -23,6 +27,12 @@ namespace SBS.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            // Repositories
+            services.AddSingleton<IUsuarioRepository, UsuarioRepository>();
+
+            // Service
+            services.AddSingleton<IUsuarioService, UsuarioService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
