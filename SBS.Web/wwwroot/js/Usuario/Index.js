@@ -17,8 +17,8 @@ $(document).ready(function () {
             },
             InicializarAcciones: function () {
 
-                const listaUsuario = me.Funciones.ApiBuscarUsuario();
-                console.log('listaUsuario', listaUsuario);
+                me.Funciones.BuscarUsuario();
+                me.Funciones.GrabarUsuario();
 
             }
         };
@@ -27,8 +27,32 @@ $(document).ready(function () {
         };
         me.Funciones = {
 
+            BuscarUsuario: function () {
+                let param = {};
+                param.RolId = 0;
+                param.CodigoUsuario = "gmatos";
+                const listaUsuario = me.Funciones.ajaxBuscarUsuario(param);
+                console.log('listaUsuario', listaUsuario);
+            },
+            GrabarUsuario: function () {
+                let param = {};
+
+                param.RolId = 0;
+                param.CodigoUsuario = 'gmatos11';
+                param.ClaveSecreta = '123456';
+                param.Email = 'gmatos11@pruebas.com';
+                param.ApellidoPaterno = 'Matos';
+                param.ApellidoMaterno = 'Camones';
+                param.PrimerNombre = 'Guido';
+                param.SegundoNombre = 'Alan';
+                param.Alias = 'Guido Matos';
+
+                const response = me.Funciones.ajaxGrabarUsuario(param);
+                
+                console.log('response', response);
+            },
             // #region "Api"
-            ApiBuscarUsuario: function () {
+            ajaxBuscarUsuario: function (param) {
 
                 let lista = [];
 
@@ -37,7 +61,7 @@ $(document).ready(function () {
                     url: urlBuscarUsuario,
                     dataType: 'json',
                     contentType: 'application/json; charset=utf-8',
-                    data: null,
+                    data: JSON.stringify(param),
                     async: false,
                     beforeSend: function () {
                     },
@@ -52,6 +76,35 @@ $(document).ready(function () {
                 });
 
                 return lista;
+
+            },
+            ajaxGrabarUsuario: function (param) {
+
+                let responseGrabar = {
+                    success: false,
+                    data: 0
+                };
+
+                $.ajax({
+                    type: 'POST',
+                    url: urlGrabarUsuario,
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify(param),
+                    async: false,
+                    beforeSend: function () {
+                    },
+                    success: function (response) {
+                        responseGrabar = response;
+                    },
+                    error: function (data, error) {
+
+                    },
+                    complete: function () {
+                    }
+                });
+
+                return responseGrabar;
 
             }
             // #endregion

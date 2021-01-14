@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SBS.ApplicationCore.DTO;
 using SBS.ApplicationCore.Entities;
 using SBS.ApplicationCore.Interfaces.Services;
 using System;
@@ -37,15 +38,15 @@ namespace SBS.Web.Controllers
         /// </summary>
         /// <param name="param"></param>
         /// <returns></returns>
-        [HttpPost("BuscarUsuario")]
-        public JsonResult BuscarUsuario()
+        [HttpPost("Buscar")]
+        public JsonResult BuscarUsuario([FromBody] FiltroBusquedaUsuarioDto param)
         {
             var success = true;
-            IEnumerable<Usuario> lista = null;
+            IEnumerable<BusquedaUsuarioDto> lista = null;
 
             try
             {
-                lista = _usuarioService.BuscarUsuario().Result;
+                lista = _usuarioService.BuscarUsuario(param).Result;
             }
             catch (Exception ex)
             {
@@ -57,6 +58,62 @@ namespace SBS.Web.Controllers
             {
                 success,
                 data = lista
+            });
+        }
+
+        /// <summary>
+        /// GrabarUsuario
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        [HttpPost("Grabar")]
+        public JsonResult GrabarUsuario([FromBody] Usuario param)
+        {
+            var success = true;
+            int result = 0;
+
+            try
+            {
+                result = _usuarioService.GrabarUsuario(param).Result;
+            }
+            catch (Exception ex)
+            {
+                success = false;
+                _logger.LogError(default(EventId), ex, ex.Message);
+            }
+
+            return Json(new
+            {
+                success,
+                data = result
+            });
+        }
+
+        /// <summary>
+        /// EliminarUsuario
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        [HttpPost("Eliminar")]
+        public JsonResult EliminarUsuario([FromBody] Usuario param)
+        {
+            var success = true;
+            int result = 0;
+
+            try
+            {
+                result = _usuarioService.EliminarUsuario(param.UsuarioId).Result;
+            }
+            catch (Exception ex)
+            {
+                success = false;
+                _logger.LogError(default(EventId), ex, ex.Message);
+            }
+
+            return Json(new
+            {
+                success,
+                data = result
             });
         }
 

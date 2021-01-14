@@ -1,4 +1,5 @@
-﻿using SBS.ApplicationCore.Entities;
+﻿using SBS.ApplicationCore.DTO;
+using SBS.ApplicationCore.Entities;
 using SBS.ApplicationCore.Interfaces.Repositories;
 using SBS.ApplicationCore.Interfaces.Services;
 using System.Collections.Generic;
@@ -14,9 +15,20 @@ namespace SBS.ApplicationCore.Services
         {
             _usuarioRepository = usuarioRepository;
         }
-        public async Task<IEnumerable<Usuario>> BuscarUsuario()
+        public async Task<IEnumerable<BusquedaUsuarioDto>> BuscarUsuario(FiltroBusquedaUsuarioDto param)
         {
-            return await _usuarioRepository.BuscarUsuario();
+            return await _usuarioRepository.BuscarUsuario(param);
+        }
+        public async Task<int> GrabarUsuario(Usuario usuario)
+        {
+            if (usuario.UsuarioId == 0)
+                return await _usuarioRepository.InsertarUsuario(usuario);
+            else
+                return await _usuarioRepository.ModificarUsuario(usuario);
+        }
+        public async Task<int> EliminarUsuario(int usuarioId)
+        {
+            return await _usuarioRepository.EliminarUsuario(usuarioId);
         }
     }
 }
