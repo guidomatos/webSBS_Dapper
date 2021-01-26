@@ -1,17 +1,18 @@
-﻿//using Aspose.Cells;
-using Aspose.Cells;
+﻿using Aspose.Cells;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using SBS.ApplicationCore.DTO;
 using SBS.ApplicationCore.Entities;
 using SBS.ApplicationCore.Interfaces.Services;
+using SBS.Web.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
 namespace SBS.Web.Controllers
 {
-    public class UsuarioController : Controller
+    public class UsuarioController : BaseController
     {
         private readonly ILogger<Controller> _logger;
         private readonly IUsuarioService _usuarioService;
@@ -24,8 +25,11 @@ namespace SBS.Web.Controllers
         public UsuarioController
             (
             ILogger<Controller> logger,
-            IUsuarioService usuarioService
-            )
+            IUsuarioService usuarioService,
+            IOptions<AppSettingsSection.AppSettings> appSettings
+            ) : base(
+                  appSettings
+                  )
         {
             _logger = logger;
             _usuarioService = usuarioService;

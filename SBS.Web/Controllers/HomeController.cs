@@ -5,15 +5,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using SBS.Web.Models;
+using SBS.Web.Utils;
 
 namespace SBS.Web.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController
+            (
+            ILogger<HomeController> logger,
+            IOptions<AppSettingsSection.AppSettings> appSettings
+            ) : base(
+                  appSettings
+                  )
         {
             _logger = logger;
         }

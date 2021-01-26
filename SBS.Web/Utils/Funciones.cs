@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SBS.Utils
+namespace SBS.Web.Utils
 {
     public class Funciones
     {

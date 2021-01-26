@@ -4,5 +4,17 @@
     "inputFiles": [
       "wwwroot/js/Usuario/Index.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/Login/Index.min.js",
+    "inputFiles": [
+      "wwwroot/js/Login/Index.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/login.min.css",
+    "inputFiles": [
+      "wwwroot/css/login.css"
+    ]
   }
 ]

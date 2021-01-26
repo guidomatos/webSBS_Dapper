@@ -1,0 +1,88 @@
+﻿@model SBS.Web.Models.Login.LoginViewModel;
+@{
+    Layout = "";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Login</title>
+
+    <environment names="Development">
+        <!-- Bootstrap core CSS -->
+        <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+        <!-- Custom styles for this template -->
+        <link href="~/css/login.css" rel="stylesheet" />
+    </environment>
+    <environment names="Production">
+        <!-- Bootstrap core CSS -->
+        <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <!-- Custom styles for this template -->
+        @*<link href="~/css/login.min.css" rel="stylesheet" />*@
+    </environment>
+
+</head>
+<body class="text-center">
+    <form class="form-signin" asp-action="Index" asp-controller="Login"
+          method="post" asp-antiforgery="false" autocomplete="off" asp-route-returnurl="@Model.ReturnUrl" style="width: 300px;">
+
+        <h1 class="h3 mb-3 font-weight-normal">Ingrese sus credenciales</h1>
+
+        <label asp-for="CodigoUsuario" class="sr-only">Usuario</label>
+        <input asp-for="CodigoUsuario" class="form-control" placeholder="Usuario" autofocus="" />
+        <span asp-validation-for="CodigoUsuario" class="text-danger"></span>
+
+        <label asp-for="ClaveSecreta" class="sr-only">Clave</label>
+        <input asp-for="ClaveSecreta" class="form-control" placeholder="Clave" />
+        <span asp-validation-for="ClaveSecreta" class="text-danger"></span>
+
+        <button class="btn btn-lg btn-success btn-block" type="submit">Ingresar</button>
+
+        <p class="mt-5 mb-3 text-muted">© 2021</p>
+    </form>
+
+
+    <div id="modal-error-id" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header hidden">
+                    AVISO
+                </div>
+                <div class="modal-body text-center">
+                    <div id="modal-error-message" class="visible-xs-block visible-sm-block visible-md-block visible-lg-block">
+                    </div>
+                    <div class="modal-footer text-center-modal-login">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var errorLogin = '@TempData["ErrorLogin"]';
+    </script>
+
+    <environment names="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/js/Login/Index.js"></script>
+    </environment>
+    <environment names="Production">
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="~/js/Login/Index.min.js" asp-append-version="true"></script>
+    </environment>
+
+</body>
+</html>
+
