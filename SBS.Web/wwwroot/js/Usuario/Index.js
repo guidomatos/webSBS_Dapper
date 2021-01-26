@@ -9,10 +9,14 @@ $(document).ready(function () {
 
         me.Globales = {
 
+            BtnExportarExcel: '#btnExportarExcel'
+
         };
         me.Init = {
             InicializarEventos: function () {
 
+                //$(document).on('click', me.Globales.BtnExportarExcel, me.Eventos.ExportarExcel);
+                $(document).on('click', '#btnExportarExcel', me.Eventos.ExportarExcel);
 
             },
             InicializarAcciones: function () {
@@ -24,13 +28,21 @@ $(document).ready(function () {
         };
         me.Eventos = {
 
+            ExportarExcel: function (event) {
+
+
+                const param = me.Funciones.ObtenerParametroBusqueda();
+                console.log('param', param);
+                me.Funciones.DescargarArchivo(param);
+
+            }
+
         };
         me.Funciones = {
 
             BuscarUsuario: function () {
-                let param = {};
-                param.RolId = 0;
-                param.CodigoUsuario = "gmatos";
+
+                const param = me.Funciones.ObtenerParametroBusqueda();
                 const listaUsuario = me.Funciones.ajaxBuscarUsuario(param);
                 console.log('listaUsuario', listaUsuario);
             },
@@ -108,6 +120,45 @@ $(document).ready(function () {
 
             }
             // #endregion
+
+            , ObtenerParametroBusqueda: function () {
+                let param = {};
+                param.RolId = 0;
+                param.CodigoUsuario = "gmatos";
+                return param;
+            }
+            ,DescargarArchivo: function (param) {
+
+                $.ajax({
+                    url: urlExportarExcel,
+                    method: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify(param),
+                    xhrFields: {
+                        responseType: 'blob'
+                    },
+                    success: function (data, status, response) {
+                        let filename = "";
+                        let disposition = response.getResponseHeader('Content-Disposition');
+                        if (disposition && disposition.indexOf('attachment') !== -1) {
+                            let filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                            let matches = filenameRegex.exec(disposition);
+                            if (matches != null && matches[1]) filename = matches[1].replace(/['"]/g, '');
+                        }
+                        let a = document.createElement('a');
+                        a.href = window.URL.createObjectURL(data);
+                        a.download = filename;
+                        document.body.append(a);
+                        a.click();
+                        window.URL.revokeObjectURL(urlExportarExcel);
+                    },
+                    complete: function (data) {
+
+
+                    },
+                });
+
+            }
 
         };
         me.Inicializar = function () {
